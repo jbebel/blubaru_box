@@ -61,18 +61,18 @@ ScrewTap        = 2.2606 - CutoutMargin; // tap size for #4 coarse-thread
 FootHole        = ScrewTap;
 
 // Various special parameters for this project.
-PanelMargin = 0;
+PanelMargin = 1;
 EdgeMargin = 0.2; // Tolerance around cylindrical protrusions
 LEDDiameter = 2.9 + EdgeMargin + CutoutMargin;
 LEDHeight = 5.1;
 LEDSpacing = 5.08;
 LED1CenterFromLeftEdge = 10.16;
-LED2CenterFromLeftEdge = 10.16 + LEDSpacing * 1;
-LED3CenterFromLeftEdge = 10.16 + LEDSpacing * 2;
-LED4CenterFromLeftEdge = 10.16 + LEDSpacing * 3;
-LED5CenterFromLeftEdge = 10.16 + LEDSpacing * 4;
-LED6CenterFromLeftEdge = 10.16 + LEDSpacing * 5;
-LED7CenterFromLeftEdge = 10.16 + LEDSpacing * 6;
+LED2CenterFromLeftEdge = LED1CenterFromLeftEdge + LEDSpacing;
+LED3CenterFromLeftEdge = LED2CenterFromLeftEdge + LEDSpacing;
+LED4CenterFromLeftEdge = LED3CenterFromLeftEdge + LEDSpacing;
+LED5CenterFromLeftEdge = LED4CenterFromLeftEdge + LEDSpacing;
+LED6CenterFromLeftEdge = LED5CenterFromLeftEdge + LEDSpacing;
+LED7CenterFromLeftEdge = LED6CenterFromLeftEdge + LEDSpacing;
 ButtonDiameter = 3.5 + EdgeMargin + CutoutMargin;
 ButtonHeight = 4.05;
 ButtonCenterFromLeftEdge = 48.55;
@@ -94,7 +94,7 @@ FrontEdgeMargin = 0;
 BackEdgeMargin = 0;
 LeftEdgeMargin = Thick + 3;
 RightEdgeMargin = Thick + 3;
-TopMargin = Thick + PCBThick + RegulatorHeight + PanelMargin;
+TopMargin = PCBThick + RegulatorHeight;
 
 // Foot centers are specified as distance from PCB top-left corner.
 // X is along the "length" axis, and Y is along the "width" axis.
@@ -113,7 +113,7 @@ Foot4Y = PCBWidth - 3.81;
 
 /* [STL element to export] */
 //Coque haut - Top shell
-TShell          = 0;// [0:No, 1:Yes]
+TShell          = 1;// [0:No, 1:Yes]
 //Coque bas- Bottom shell
 BShell          = 1;// [0:No, 1:Yes]
 //Panneau avant - Front panel
@@ -551,7 +551,7 @@ module FPanL(){
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + PanelMargin,
-            PanelHeight - Thick - (m/2) - PanelMargin - (FontSize + 1),
+            PanelHeight - Thick - (m/2) - PanelMargin - (FontSize + 2),
             "Arial Black",
             FontSize + 2,
             "Blubaru",
@@ -608,14 +608,14 @@ module BPanL() {
             LText(
               1,
               LeftEdgeOfBoardWRTPanel + DB151FromLeftEdge + DB15Width/2,
-              Thick + (m/2) + PanelMargin,
+              PanelHeight - Thick - (m/2) - PanelMargin - (FontSize - 1),
               "Arial Black",
               FontSize,
               "Stereo");
             LText(
               1,
               LeftEdgeOfBoardWRTPanel + DB152FromLeftEdge + DB15Width/2,
-              Thick + (m/2) + PanelMargin,
+              PanelHeight - Thick - (m/2) - PanelMargin - (FontSize - 1),
               "Arial Black",
               FontSize,
               "CD");
