@@ -56,9 +56,9 @@ FootHeight      = 6.35 - PCBThick;
 // - Diamètre pied - Foot diameter
 FootDia         = 5.6;
 // - Diamètre trou - Hole diameter
-CutoutMargin = 0;
-ScrewTap        = 2.2606 - CutoutMargin; // tap size for #4 coarse-thread
-FootHole        = ScrewTap;
+CutoutMargin = 0.6;
+ScrewTap        = 2.2606; // tap size for #4 coarse-thread
+FootHole        = ScrewTap - CutoutMargin;
 
 // Various special parameters for this project.
 PanelMargin = 1;
@@ -113,7 +113,7 @@ Foot4Y = PCBWidth - 3.81;
 
 /* [STL element to export] */
 //Coque haut - Top shell
-TShell          = 1;// [0:No, 1:Yes]
+TShell          = 0;// [0:No, 1:Yes]
 //Coque bas- Bottom shell
 BShell          = 1;// [0:No, 1:Yes]
 //Panneau avant - Front panel
@@ -127,7 +127,8 @@ BPanL           = 1;// [0:No, 1:Yes]
 // - Couleur coque - Shell color
 Couleur1        = "Navy";
 // - Couleur panneaux - Panels color
-Couleur2        = "White";
+Couleur2        = "Navy";
+LetterColor     = "White";
 // Thick X 2 - making decorations thicker if it is a vent to make sure they go through shell
 Dec_Thick       = Vent ? Thick*2 : Thick;
 // - Depth decoration
@@ -472,11 +473,11 @@ module FPanL(){
     }
   }
 
-  color(Couleur1) {
+  color(LetterColor) {
     translate ([-.5,0,0]) {
       rotate([90,0,90]) {
         //                      <- Adding text from here ->
-        FontSize = 2;
+        FontSize = 2.5;
 
         LText(
             1,
@@ -600,7 +601,7 @@ module BPanL() {
         }
       }
 
-      color(Couleur1) {
+      color(LetterColor) {
         translate([-.5, 0, 0]) {
           rotate([90,0,90]) {
             FontSize = 3;
