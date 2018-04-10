@@ -56,11 +56,12 @@ FootHeight      = 6.35 - PCBThick;
 // - Diamètre pied - Foot diameter
 FootDia         = 5.6;
 // - Diamètre trou - Hole diameter
-FootHole        = 2.2606; // tap size for #4 coarse-thread
+CutoutMargin = 0;
+ScrewTap        = 2.2606 - CutoutMargin; // tap size for #4 coarse-thread
+FootHole        = ScrewTap;
 
 // Various special parameters for this project.
 PanelMargin = 0;
-CutoutMargin = 0;
 EdgeMargin = 0.2; // Tolerance around cylindrical protrusions
 LEDDiameter = 2.9 + EdgeMargin + CutoutMargin;
 LEDHeight = 5.1;
@@ -80,6 +81,7 @@ JackHeight = 7;
 Jack1CenterFromLeftEdge = 57.52;
 Jack2CenterFromLeftEdge = 66.41;
 DB15Width = 39.2 + CutoutMargin;
+DoubleDB15Width = 79.5 + CutoutMargin;
 DB15Height = 12.55 + CutoutMargin;
 DB151FromLeftEdge = 0.255;
 DB152FromLeftEdge = 40.555;
@@ -111,7 +113,7 @@ Foot4Y = PCBWidth - 3.81;
 
 /* [STL element to export] */
 //Coque haut - Top shell
-TShell          = 1;// [0:No, 1:Yes]
+TShell          = 0;// [0:No, 1:Yes]
 //Coque bas- Bottom shell
 BShell          = 1;// [0:No, 1:Yes]
 //Panneau avant - Front panel
@@ -255,22 +257,22 @@ module Coque(){//Coque - Shell
                 $fn=50;
                 translate([3*Thick+5,20,Height/2+4]){
                     rotate([90,0,0]){
-                    cylinder(d=2,20);
+                    cylinder(d=ScrewTap,20);
                     }
                 }
                 translate([Length-((3*Thick)+5),20,Height/2+4]){
                     rotate([90,0,0]){
-                    cylinder(d=2,20);
+                    cylinder(d=ScrewTap,20);
                     }
                 }
                 translate([3*Thick+5,Width+5,Height/2-4]){
                     rotate([90,0,0]){
-                    cylinder(d=2,20);
+                    cylinder(d=ScrewTap,20);
                     }
                 }
                 translate([Length-((3*Thick)+5),Width+5,Height/2-4]){
                     rotate([90,0,0]){
-                    cylinder(d=2,20);
+                    cylinder(d=ScrewTap,20);
                     }
                 }
             }//fin de sides holes
@@ -585,6 +587,13 @@ module BPanL() {
                 LeftEdgeOfBoardWRTPanel + DB152FromLeftEdge,
                 TopOfBoardWRTPanel - (CutoutMargin / 2),
                 DB15Width,
+                DB15Height,
+                0);
+            SquareHole(
+                0,
+                LeftEdgeOfBoardWRTPanel + DB151FromLeftEdge,
+                TopOfBoardWRTPanel - (CutoutMargin / 2),
+                DoubleDB15Width,
                 DB15Height,
                 0);
           }
