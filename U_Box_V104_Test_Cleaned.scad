@@ -58,7 +58,7 @@ FootDia         = 5.6;
 // - Diamètre trou - Hole diameter
 CutoutMargin = 0.6;
 ScrewTap        = 2.2606; // tap size for #4 coarse-thread
-FootHole        = ScrewTap - CutoutMargin;
+FootHole        = ScrewTap + CutoutMargin;
 
 // Various special parameters for this project.
 PanelMargin = 1;
