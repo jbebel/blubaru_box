@@ -113,7 +113,7 @@ Foot4Y = PCBWidth - 3.81;
 
 /* [STL element to export] */
 //Coque haut - Top shell
-TShell          = 0;// [0:No, 1:Yes]
+TShell          = 1;// [0:No, 1:Yes]
 //Coque bas- Bottom shell
 BShell          = 1;// [0:No, 1:Yes]
 //Panneau avant - Front panel
@@ -127,7 +127,7 @@ BPanL           = 1;// [0:No, 1:Yes]
 // - Couleur coque - Shell color
 Couleur1        = "Navy";
 // - Couleur panneaux - Panels color
-Couleur2        = "Navy";
+Couleur2        = "Black";
 LetterColor     = "White";
 // Thick X 2 - making decorations thicker if it is a vent to make sure they go through shell
 Dec_Thick       = Vent ? Thick*2 : Thick;
@@ -477,7 +477,7 @@ module FPanL(){
     translate ([-.5,0,0]) {
       rotate([90,0,90]) {
         //                      <- Adding text from here ->
-        FontSize = 2.5;
+        FontSize = 3;
 
         LText(
             1,
@@ -492,7 +492,7 @@ module FPanL(){
             Thick + (m/2) + PanelMargin,
             "Arial Black",
             FontSize,
-            "B");
+            "T");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + LED3CenterFromLeftEdge,
@@ -520,14 +520,14 @@ module FPanL(){
             Thick + (m/2) + PanelMargin,
             "Arial Black",
             FontSize,
-            "B1");
+            "B");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + LED7CenterFromLeftEdge,
             Thick + (m/2) + PanelMargin,
             "Arial Black",
             FontSize,
-            "B2");
+            "B1");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + ButtonCenterFromLeftEdge,
@@ -552,9 +552,9 @@ module FPanL(){
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + PanelMargin,
-            PanelHeight - Thick - (m/2) - PanelMargin - (FontSize + 2),
+            PanelHeight - Thick - (m/2) - PanelMargin - 5,
             "Arial Black",
-            FontSize + 2,
+            5,
             "Blubaru",
             "left");
         //                            <- To here ->
@@ -578,21 +578,21 @@ module BPanL() {
           color(Couleur2) {
             SquareHole(
                 1,
-                LeftEdgeOfBoardWRTPanel + DB151FromLeftEdge,
+                LeftEdgeOfBoardWRTPanel + DB151FromLeftEdge - (CutoutMargin / 2),
                 TopOfBoardWRTPanel - (CutoutMargin / 2),
                 DB15Width,
                 DB15Height,
                 0);
             SquareHole(
                 1,
-                LeftEdgeOfBoardWRTPanel + DB152FromLeftEdge,
+                LeftEdgeOfBoardWRTPanel + DB152FromLeftEdge - (CutoutMargin / 2),
                 TopOfBoardWRTPanel - (CutoutMargin / 2),
                 DB15Width,
                 DB15Height,
                 0);
             SquareHole(
                 0,
-                LeftEdgeOfBoardWRTPanel + DB151FromLeftEdge,
+                LeftEdgeOfBoardWRTPanel + DB151FromLeftEdge - (CutoutMargin / 2),
                 TopOfBoardWRTPanel - (CutoutMargin / 2),
                 DoubleDB15Width,
                 DB15Height,
