@@ -34,7 +34,7 @@
 // - lissage de l'arrondi - Filet smoothness
   Resolution    = 50;//[1:100]
 // - Tolérance - Tolerance (Panel/rails gap)
-  m             = 0.9;
+  m             = 0.2;
 // Pieds PCB - PCB feet (x4)
   PCBFeet       = 1;// [0:No, 1:Yes]
 // - Decorations to ventilation holes
@@ -113,7 +113,7 @@ Foot4Y = PCBWidth - 3.81;
 
 /* [STL element to export] */
 //Coque haut - Top shell
-TShell          = 1;// [0:No, 1:Yes]
+TShell          = 0;// [0:No, 1:Yes]
 //Coque bas- Bottom shell
 BShell          = 1;// [0:No, 1:Yes]
 //Panneau avant - Front panel
