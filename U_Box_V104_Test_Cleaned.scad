@@ -83,8 +83,8 @@ Jack2CenterFromLeftEdge = 66.41;
 DB15Width = 39.2 + CutoutMargin;
 DoubleDB15Width = 79.5 + CutoutMargin;
 DB15Height = 12.55 + CutoutMargin;
-DB151FromLeftEdge = 0.255;
-DB152FromLeftEdge = 40.555;
+DB151FromLeftEdge = 0.255 - (CutoutMargin / 2);
+DB152FromLeftEdge = 40.555 - (CutoutMargin / 2);
 RegulatorHeight = 19.35;
 
 // Margins between PCB and box/panels.
@@ -125,7 +125,7 @@ BPanL           = 1;// [0:No, 1:Yes]
 
 /* [Hidden] */
 // - Couleur coque - Shell color
-Couleur1        = "Navy";
+Couleur1        = "RoyalBlue";
 // - Couleur panneaux - Panels color
 Couleur2        = "Black";
 LetterColor     = "White";
@@ -482,77 +482,77 @@ module FPanL(){
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + LED1CenterFromLeftEdge,
-            Thick + (m/2) + PanelMargin,
+            Thick - (m/2) + PanelMargin + 1,
             "Arial Black",
             FontSize,
             "P");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + LED2CenterFromLeftEdge,
-            Thick + (m/2) + PanelMargin,
+            Thick - (m/2) + PanelMargin + 1,
             "Arial Black",
             FontSize,
             "T");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + LED3CenterFromLeftEdge,
-            Thick + (m/2) + PanelMargin,
+            Thick - (m/2) + PanelMargin + 1,
             "Arial Black",
             FontSize,
             "L");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + LED4CenterFromLeftEdge,
-            Thick + (m/2) + PanelMargin,
+            Thick - (m/2) + PanelMargin + 1,
             "Arial Black",
             FontSize,
             "1");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + LED5CenterFromLeftEdge,
-            Thick + (m/2) + PanelMargin,
+            Thick - (m/2) + PanelMargin + 1,
             "Arial Black",
             FontSize,
             "2");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + LED6CenterFromLeftEdge,
-            Thick + (m/2) + PanelMargin,
+            Thick - (m/2) + PanelMargin + 1,
             "Arial Black",
             FontSize,
             "B");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + LED7CenterFromLeftEdge,
-            Thick + (m/2) + PanelMargin,
+            Thick - (m/2) + PanelMargin + 1,
             "Arial Black",
             FontSize,
             "B1");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + ButtonCenterFromLeftEdge,
-            Thick + (m/2) + PanelMargin,
+            Thick - (m/2) + PanelMargin + 1,
             "Arial Black",
             FontSize,
             "RST");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + Jack1CenterFromLeftEdge,
-            Thick + (m/2) + PanelMargin,
+            Thick - (m/2) + PanelMargin + 1,
             "Arial Black",
             FontSize,
             "Mic");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + Jack2CenterFromLeftEdge,
-            Thick + (m/2) + PanelMargin,
+            Thick - (m/2) + PanelMargin + 1,
             "Arial Black",
             FontSize,
             "Line");
         LText(
             1,
-            LeftEdgeOfBoardWRTPanel + PanelMargin,
-            PanelHeight - Thick - (m/2) - PanelMargin - 5,
+            LeftEdgeOfBoardWRTPanel + 2,
+            PanelHeight - Thick + (m/2) - PanelMargin - 6,
             "Arial Black",
             5,
             "Blubaru",
@@ -578,21 +578,21 @@ module BPanL() {
           color(Couleur2) {
             SquareHole(
                 1,
-                LeftEdgeOfBoardWRTPanel + DB151FromLeftEdge - (CutoutMargin / 2),
+                LeftEdgeOfBoardWRTPanel + DB151FromLeftEdge,
                 TopOfBoardWRTPanel - (CutoutMargin / 2),
                 DB15Width,
                 DB15Height,
                 0);
             SquareHole(
                 1,
-                LeftEdgeOfBoardWRTPanel + DB152FromLeftEdge - (CutoutMargin / 2),
+                LeftEdgeOfBoardWRTPanel + DB152FromLeftEdge,
                 TopOfBoardWRTPanel - (CutoutMargin / 2),
                 DB15Width,
                 DB15Height,
                 0);
             SquareHole(
                 0,
-                LeftEdgeOfBoardWRTPanel + DB151FromLeftEdge - (CutoutMargin / 2),
+                LeftEdgeOfBoardWRTPanel + DB151FromLeftEdge,
                 TopOfBoardWRTPanel - (CutoutMargin / 2),
                 DoubleDB15Width,
                 DB15Height,
@@ -609,14 +609,14 @@ module BPanL() {
             LText(
               1,
               LeftEdgeOfBoardWRTPanel + DB151FromLeftEdge + DB15Width/2,
-              PanelHeight - Thick - (m/2) - PanelMargin - (FontSize - 1),
+              PanelHeight - Thick + (m/2) - PanelMargin - FontSize,
               "Arial Black",
               FontSize,
               "Stereo");
             LText(
               1,
               LeftEdgeOfBoardWRTPanel + DB152FromLeftEdge + DB15Width/2,
-              PanelHeight - Thick - (m/2) - PanelMargin - (FontSize - 1),
+              PanelHeight - Thick + (m/2) - PanelMargin - FontSize,
               "Arial Black",
               FontSize,
               "CD");
