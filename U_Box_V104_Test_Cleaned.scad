@@ -125,7 +125,7 @@ BPanL           = 1;// [0:No, 1:Yes]
 
 /* [Hidden] */
 // - Couleur coque - Shell color
-Couleur1        = "RoyalBlue";
+Couleur1        = "Blue";
 // - Couleur panneaux - Panels color
 Couleur2        = "Black";
 LetterColor     = "White";
