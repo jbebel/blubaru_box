@@ -350,16 +350,14 @@ module Feet() {
 
 //                           <- Panel ->
 module Panel() {
-  scale([0.5,1,1]) {
     minkowski() {
-      cube([PanelThick,PanelWidth - (Filet*2),PanelHeight - (Filet*2)]);
+      cube([PanelThick/2,PanelWidth - (Filet*2),PanelHeight - (Filet*2)]);
       translate([0,Filet,Filet]) {
         rotate([0,90,0]) {
-          cylinder(r=Filet,h=PanelThick, $fn=100);
+          cylinder(r=Filet,h=PanelThick/2, $fn=100);
         }
       }
     }
-  }
 }
 
 
