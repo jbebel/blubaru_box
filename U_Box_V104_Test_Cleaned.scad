@@ -760,9 +760,9 @@ if (BShell==1) {
     Feet();
 }
 
-// Panneau avant - Front panel  <<<<<< Text and holes only on this one.
+// Panneau avant - Front panel
 if (FPanL==1) {
-  translate([Length-(Thick*2+m/2),Thick+m/2,Thick+m/2])
+  translate([Length-(Thick+PanelThick+m/2),Thick+m/2,Thick+m/2])
     FPanL();
 }
 
