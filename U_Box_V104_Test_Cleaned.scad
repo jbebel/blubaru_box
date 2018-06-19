@@ -143,9 +143,7 @@ Height = FootHeight + TopMargin + (Thick*2);
 
 // Calculate panel dimensions from box dimensions.
 PanelWidth = Width - (Thick*2) - m;
-echo(PanelWidth=PanelWidth);
 PanelHeight = Height - (Thick*2) - m;
-echo(PanelHeight=PanelHeight);
 
 // Calculate board-relative positions with respect to the panel, for
 // convenience in placing panel elements.
@@ -221,7 +219,7 @@ module Coque(){//Coque - Shell
                             }
 
                         }
-                            translate([0,Thick*2+Filet,Height/2-57]){
+                            translate([0,Thick*2+Filet,Height/2-(40*sqrt(2))]){
                              rotate([45,0,0]){
                                    cube([Length,40,40]);
                                   }
@@ -350,6 +348,7 @@ module Feet() {
 
 //                           <- Panel ->
 module Panel() {
+    echo("Panel:",PanelThick=PanelThick,PanelWidth=PanelWidth,PanelHeight=PanelHeight);
     minkowski() {
       cube([PanelThick/2,PanelWidth - (Filet*2),PanelHeight - (Filet*2)]);
       translate([0,Filet,Filet]) {
@@ -365,19 +364,24 @@ module Panel() {
 //                          <- Circle hole ->
 // Cx=Cylinder X position | Cy=Cylinder Y position | Cdia= Cylinder dia | Cheight=Cyl height
 module CylinderHole(OnOff,Cx,Cy,Cdia){
-    if(OnOff==1)
-    translate([Cx,Cy,-1])
-        cylinder(d=Cdia,10, $fn=50);
+    if(OnOff==1) {
+        echo("CylinderHole:",Cx=Cx,Cy=Cy,Cdia=Cdia);
+        translate([Cx,Cy,-1]) {
+            cylinder(d=Cdia,10, $fn=50);
+        }
+    }
 }
 //                          <- Square hole ->
 // Sx=Square X position | Sy=Square Y position | Sl= Square Length | Sw=Square Width | Filet = Round corner
 module SquareHole(OnOff,Sx,Sy,Sl,Sw,Filet){
-    if(OnOff==1)
-     minkowski(){
-        translate([Sx+Filet/2,Sy+Filet/2,-1])
+    if(OnOff==1) {
+        echo("SquareHole:",Sx=Sx,Sy=Sy,Sl=Sl,Sw=Sw,Filet=Filet);
+        minkowski(){
+            translate([Sx+Filet/2,Sy+Filet/2,-1])
             cube([Sl-Filet,Sw-Filet,10]);
             cylinder(d=Filet,h=10, $fn=100);
        }
+   }
 }
 
 
@@ -385,6 +389,7 @@ module SquareHole(OnOff,Sx,Sy,Sl,Sw,Filet){
 //                      <- Linear text panel ->
 module LText(OnOff,Tx,Ty,Font,Size,Content,HAlign="center"){
   if(OnOff==1) {
+      echo("LText:",Tx=Tx,Ty=Ty,Font=Font,Size=Size,Content=Content,HAlign=HAlign);
     translate([Tx,Ty,PanelThick+.5]) {
       linear_extrude(height = 0.5){
         text(Content, size=Size, font=Font, halign=HAlign);
@@ -395,7 +400,8 @@ module LText(OnOff,Tx,Ty,Font,Size,Content,HAlign="center"){
 
 //                     <- Circular text panel->
 module CText(OnOff,Tx,Ty,Font,Size,TxtRadius,Angl,Turn,Content){
-      if(OnOff==1) {
+    if(OnOff==1) {
+      echo("CText:",Tx=Tx,Ty=Ty,Font=Font,Size=Size,TxtRadius=TxtRadius,Turn=Turn,Content=Content);
       Angle = -Angl / len(Content);
       translate([Tx,Ty,PanelThick+.5])
           for (i= [0:len(Content)-1] ){
@@ -406,7 +412,7 @@ module CText(OnOff,Tx,Ty,Font,Size,TxtRadius,Angl,Turn,Content){
                     }
                 }
              }
-      }
+    }
 }
 ////////////////////// <- New module Panel -> //////////////////////
 module FPanL(){
@@ -424,15 +430,9 @@ module FPanL(){
             LeftEdgeOfBoardWRTPanel + LED1CenterFromLeftEdge,
             TopOfBoardWRTPanel + LEDHeight,
             LEDDiameter);
-        echo("Hole at ", LeftEdgeOfBoardWRTPanel + LED1CenterFromLeftEdge,
-            TopOfBoardWRTPanel + LEDHeight,
-            LEDDiameter);
         CylinderHole(
             1,
             LeftEdgeOfBoardWRTPanel + LED2CenterFromLeftEdge,
-            TopOfBoardWRTPanel + LEDHeight,
-            LEDDiameter);
-        echo("Hole at ", LeftEdgeOfBoardWRTPanel + LED2CenterFromLeftEdge,
             TopOfBoardWRTPanel + LEDHeight,
             LEDDiameter);
         CylinderHole(
@@ -440,15 +440,9 @@ module FPanL(){
             LeftEdgeOfBoardWRTPanel + LED3CenterFromLeftEdge,
             TopOfBoardWRTPanel + LEDHeight,
             LEDDiameter);
-        echo("Hole at ", LeftEdgeOfBoardWRTPanel + LED3CenterFromLeftEdge,
-            TopOfBoardWRTPanel + LEDHeight,
-            LEDDiameter);
         CylinderHole(
             1,
             LeftEdgeOfBoardWRTPanel + LED4CenterFromLeftEdge,
-            TopOfBoardWRTPanel + LEDHeight,
-            LEDDiameter);
-        echo("Hole at ", LeftEdgeOfBoardWRTPanel + LED4CenterFromLeftEdge,
             TopOfBoardWRTPanel + LEDHeight,
             LEDDiameter);
         CylinderHole(
@@ -456,15 +450,9 @@ module FPanL(){
             LeftEdgeOfBoardWRTPanel + LED5CenterFromLeftEdge,
             TopOfBoardWRTPanel + LEDHeight,
             LEDDiameter);
-        echo("Hole at ", LeftEdgeOfBoardWRTPanel + LED5CenterFromLeftEdge,
-            TopOfBoardWRTPanel + LEDHeight,
-            LEDDiameter);
         CylinderHole(
             1,
             LeftEdgeOfBoardWRTPanel + LED6CenterFromLeftEdge,
-            TopOfBoardWRTPanel + LEDHeight,
-            LEDDiameter);
-        echo("Hole at ", LeftEdgeOfBoardWRTPanel + LED6CenterFromLeftEdge,
             TopOfBoardWRTPanel + LEDHeight,
             LEDDiameter);
         CylinderHole(
@@ -472,15 +460,9 @@ module FPanL(){
             LeftEdgeOfBoardWRTPanel + LED7CenterFromLeftEdge,
             TopOfBoardWRTPanel + LEDHeight,
             LEDDiameter);
-        echo("Hole at ", LeftEdgeOfBoardWRTPanel + LED7CenterFromLeftEdge,
-            TopOfBoardWRTPanel + LEDHeight,
-            LEDDiameter);
         CylinderHole(
             1,
             LeftEdgeOfBoardWRTPanel + ButtonCenterFromLeftEdge,
-            TopOfBoardWRTPanel + ButtonHeight,
-            ButtonDiameter);
-        echo("Hole at ", LeftEdgeOfBoardWRTPanel + ButtonCenterFromLeftEdge,
             TopOfBoardWRTPanel + ButtonHeight,
             ButtonDiameter);
         CylinderHole(
@@ -488,15 +470,9 @@ module FPanL(){
             LeftEdgeOfBoardWRTPanel + Jack1CenterFromLeftEdge,
             TopOfBoardWRTPanel + JackHeight,
             JackDiameter);
-        echo("Hole at ", LeftEdgeOfBoardWRTPanel + Jack1CenterFromLeftEdge,
-            TopOfBoardWRTPanel + JackHeight,
-            JackDiameter);
         CylinderHole(
             1,
             LeftEdgeOfBoardWRTPanel + Jack2CenterFromLeftEdge,
-            TopOfBoardWRTPanel + JackHeight,
-            JackDiameter);
-        echo("Hole at ", LeftEdgeOfBoardWRTPanel + Jack2CenterFromLeftEdge,
             TopOfBoardWRTPanel + JackHeight,
             JackDiameter);
         //                            <- To here ->
@@ -517,19 +493,9 @@ module FPanL(){
             "Arial Black",
             FontSize,
             "P");
-        echo("Text at ", LeftEdgeOfBoardWRTPanel + LED1CenterFromLeftEdge,
-            Thick - (m/2) + PanelMargin + 1,
-            "Arial Black",
-            FontSize,
-            "P");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + LED2CenterFromLeftEdge,
-            Thick - (m/2) + PanelMargin + 1,
-            "Arial Black",
-            FontSize,
-            "T");
-        echo("Text at ", LeftEdgeOfBoardWRTPanel + LED2CenterFromLeftEdge,
             Thick - (m/2) + PanelMargin + 1,
             "Arial Black",
             FontSize,
@@ -541,19 +507,9 @@ module FPanL(){
             "Arial Black",
             FontSize,
             "L");
-        echo("Text at ", LeftEdgeOfBoardWRTPanel + LED3CenterFromLeftEdge,
-            Thick - (m/2) + PanelMargin + 1,
-            "Arial Black",
-            FontSize,
-            "L");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + LED4CenterFromLeftEdge,
-            Thick - (m/2) + PanelMargin + 1,
-            "Arial Black",
-            FontSize,
-            "1");
-        echo("Text at ", LeftEdgeOfBoardWRTPanel + LED4CenterFromLeftEdge,
             Thick - (m/2) + PanelMargin + 1,
             "Arial Black",
             FontSize,
@@ -565,19 +521,9 @@ module FPanL(){
             "Arial Black",
             FontSize,
             "2");
-        echo("Text at ", LeftEdgeOfBoardWRTPanel + LED5CenterFromLeftEdge,
-            Thick - (m/2) + PanelMargin + 1,
-            "Arial Black",
-            FontSize,
-            "2");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + LED6CenterFromLeftEdge,
-            Thick - (m/2) + PanelMargin + 1,
-            "Arial Black",
-            FontSize,
-            "B");
-        echo("Text at ", LeftEdgeOfBoardWRTPanel + LED6CenterFromLeftEdge,
             Thick - (m/2) + PanelMargin + 1,
             "Arial Black",
             FontSize,
@@ -589,19 +535,9 @@ module FPanL(){
             "Arial Black",
             FontSize,
             "B1");
-        echo("Text at ", LeftEdgeOfBoardWRTPanel + LED7CenterFromLeftEdge,
-            Thick - (m/2) + PanelMargin + 1,
-            "Arial Black",
-            FontSize,
-            "B1");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + ButtonCenterFromLeftEdge,
-            Thick - (m/2) + PanelMargin + 1,
-            "Arial Black",
-            FontSize,
-            "RST");
-        echo("Text at ", LeftEdgeOfBoardWRTPanel + ButtonCenterFromLeftEdge,
             Thick - (m/2) + PanelMargin + 1,
             "Arial Black",
             FontSize,
@@ -613,11 +549,6 @@ module FPanL(){
             "Arial Black",
             FontSize,
             "Mic");
-        echo("Text at ", LeftEdgeOfBoardWRTPanel + Jack1CenterFromLeftEdge,
-            Thick - (m/2) + PanelMargin + 1,
-            "Arial Black",
-            FontSize,
-            "Mic");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + Jack2CenterFromLeftEdge,
@@ -625,20 +556,9 @@ module FPanL(){
             "Arial Black",
             FontSize,
             "Line");
-        echo("Text at ", LeftEdgeOfBoardWRTPanel + Jack2CenterFromLeftEdge,
-            Thick - (m/2) + PanelMargin + 1,
-            "Arial Black",
-            FontSize,
-            "Line");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + 2,
-            PanelHeight - Thick + (m/2) - PanelMargin - 6,
-            "Arial Black",
-            5,
-            "Blubaru",
-            "left");
-        echo("Text at ", LeftEdgeOfBoardWRTPanel + 2,
             PanelHeight - Thick + (m/2) - PanelMargin - 6,
             "Arial Black",
             5,
@@ -670,19 +590,9 @@ module BPanL() {
                 DB15Width,
                 DB15Height,
                 0);
-            echo("Square hole at ", LeftEdgeOfBoardWRTPanel + DB151FromLeftEdge,
-                TopOfBoardWRTPanel - (CutoutMargin / 2),
-                DB15Width,
-                DB15Height,
-                0);
             SquareHole(
                 1,
                 LeftEdgeOfBoardWRTPanel + DB152FromLeftEdge,
-                TopOfBoardWRTPanel - (CutoutMargin / 2),
-                DB15Width,
-                DB15Height,
-                0);
-            echo("Square hole at ", LeftEdgeOfBoardWRTPanel + DB152FromLeftEdge,
                 TopOfBoardWRTPanel - (CutoutMargin / 2),
                 DB15Width,
                 DB15Height,
@@ -710,19 +620,9 @@ module BPanL() {
               "Arial Black",
               FontSize,
               "Stereo");
-            echo("Text at ", LeftEdgeOfBoardWRTPanel + DB151FromLeftEdge + DB15Width/2,
-              PanelHeight - Thick + (m/2) - PanelMargin - FontSize,
-              "Arial Black",
-              FontSize,
-              "Stereo");
             LText(
               1,
               LeftEdgeOfBoardWRTPanel + DB152FromLeftEdge + DB15Width/2,
-              PanelHeight - Thick + (m/2) - PanelMargin - FontSize,
-              "Arial Black",
-              FontSize,
-              "CD");
-            echo("Text at ", LeftEdgeOfBoardWRTPanel + DB152FromLeftEdge + DB15Width/2,
               PanelHeight - Thick + (m/2) - PanelMargin - FontSize,
               "Arial Black",
               FontSize,
