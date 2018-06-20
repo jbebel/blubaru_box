@@ -35,7 +35,7 @@
 // - lissage de l'arrondi - Filet smoothness
   Resolution    = 50;//[1:100]
 // - Tolérance - Tolerance (Panel/rails gap)
-  m             = 0.2;
+  m             = 0.8;
 // Pieds PCB - PCB feet (x4)
   PCBFeet       = 1;// [0:No, 1:Yes]
 // - Decorations to ventilation holes
@@ -140,6 +140,7 @@ Dec_size        = Vent ? Thick*2 : 0.8;
 Length = PCBLength + FrontEdgeMargin + BackEdgeMargin + (((Thick + PanelThick) + m)*2);
 Width = PCBWidth + LeftEdgeMargin + RightEdgeMargin + (Thick*2);
 Height = FootHeight + TopMargin + (Thick*2);
+echo("Box: ", Length=Length, Width=Width, Height=Height);
 
 // Calculate panel dimensions from box dimensions.
 PanelWidth = Width - (Thick*2) - m;
@@ -506,21 +507,21 @@ module FPanL(){
             Thick - (m/2) + PanelMargin + 1,
             "Arial Black",
             FontSize,
-            "L");
+            "1");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + LED4CenterFromLeftEdge,
             Thick - (m/2) + PanelMargin + 1,
             "Arial Black",
             FontSize,
-            "1");
+            "2");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + LED5CenterFromLeftEdge,
             Thick - (m/2) + PanelMargin + 1,
             "Arial Black",
             FontSize,
-            "2");
+            "L");
         LText(
             1,
             LeftEdgeOfBoardWRTPanel + LED6CenterFromLeftEdge,
