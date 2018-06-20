@@ -87,33 +87,60 @@ FRTab = 1; // [0:Bottom, 1:Top]
 // EXPERIMENTAL: Snap tabs
 SnapTabs = 0; // [0:Screws, 1:Snaps]
 
+// Private variables
+Font = "Arial Black";
+FontSize = 3;
+LEDDiameter = 2.9 + PartMargin*2;
+LEDHeight = 5.1;
+LEDSpacing = 5.08;
+LED1CenterFromLeftEdge = 10.16;
+LED2CenterFromLeftEdge = LED1CenterFromLeftEdge + LEDSpacing;
+LED3CenterFromLeftEdge = LED2CenterFromLeftEdge + LEDSpacing;
+LED4CenterFromLeftEdge = LED3CenterFromLeftEdge + LEDSpacing;
+LED5CenterFromLeftEdge = LED4CenterFromLeftEdge + LEDSpacing;
+LED6CenterFromLeftEdge = LED5CenterFromLeftEdge + LEDSpacing;
+LED7CenterFromLeftEdge = LED6CenterFromLeftEdge + LEDSpacing;
+ButtonDiameter = 3.5 + PartMargin*2;
+ButtonHeight = 4.05;
+ButtonCenterFromLeftEdge = 48.55;
+JackDiameter = 6 + PartMargin*2;
+JackHeight = 7;
+Jack1CenterFromLeftEdge = 57.52;
+Jack2CenterFromLeftEdge = 66.41;
+DB15Width = 39.2;
+DoubleDB15Width = 79.5;
+DB15Height = 12.55;
+DB151FromLeftEdge = 0.255;
+DB152FromLeftEdge = 40.555;
+RegulatorHeight = 19.35;
+
 
 /* [PCB options] */
 // - PCB Length
-PCBLength = 80;
+PCBLength = 79.52;
 // - PCB Width
-PCBWidth = 144;
+PCBWidth = 80.01;
 // - PCB Thickness
 PCBThick = 1.6;
 // You likely need to maintain |TabThick| margin on the left and right for tabs
 // and whatnot.
 // - Margin between front panel and PCB
-FrontEdgeMargin = 70;
+FrontEdgeMargin = 0;
 // - Margin between back panel and PCB
 BackEdgeMargin = 0;
 // - Margin between left wall and PCB
-LeftEdgeMargin = 11;
+LeftEdgeMargin = TabThick + 3;
 // - Margin between right wall and PCB
-RightEdgeMargin = 11;
+RightEdgeMargin = TabThick + 3;
 // - Margin between top of PCB and box top.
-TopMargin = 84;
+TopMargin = RegulatorHeight;
 
 
 /* [PCB_Feet] */
 // - Foot height above box interior
-FootHeight = 8;
+FootHeight = 6.35 - PCBThick;
 // - Foot diameter
-FootDia = 8;
+FootDia = 5.6;
 // - Hole diameter, or peg for screwless design
 FootHole = 2.2606; // tap size for #4 coarse-thread
 // - EXPERIMENTAL Screwless design
@@ -123,24 +150,24 @@ FootFilet = FootHeight/4;
 // Foot centers are specified as distance from PCB back-left corner.
 // X is along the "length" axis, and Y is along the "width" axis.
 // - Foot 1 distance from back PCB edge
-Foot1X = 5;
+Foot1X = 17.29;
 // - Foot 1 distance from left PCB edge
-Foot1Y = 5;
+Foot1Y = 3.81;
 // - Foot 2 distance from back PCB edge
-Foot2X = 5;
+Foot2X = 17.29;
 // - Foot 2 distance from right PCB edge
-Foot2YFromEdge = 5;
+Foot2YFromEdge = 3.81;
 Foot2Y = PCBWidth - Foot2YFromEdge;
 // - Foot 3 distance from front PCB edge
-Foot3XFromEdge = 5;
+Foot3XFromEdge = 3.81;
 Foot3X = PCBLength - Foot3XFromEdge;
 // - Foot 3 distance from left PCB edge
-Foot3Y = 5;
+Foot3Y = 3.81;
 // - Foot 4 distance from front PCB edge
-Foot4XFromEdge = 5;
+Foot4XFromEdge = 3.81;
 Foot4X = PCBLength - Foot4XFromEdge;
 // - Foot 4 distance from right PCB edge
-Foot4YFromEdge = 5;
+Foot4YFromEdge = 3.81;
 Foot4Y = PCBWidth - Foot4YFromEdge;
 
 
@@ -154,14 +181,14 @@ FPanL = 1; // [0:No, 1:Yes]
 // - Back panel
 BPanL = 1; // [0:No, 1:Yes]
 // - Panel holes and text
-PanelFeatures = 0; // [0:No, 1:Yes]
+PanelFeatures = 1; // [0:No, 1:Yes]
 
 
 /* [Hidden] */
 // - Shell color
-Couleur1 = "Orange";
+Couleur1 = "Blue";
 // - Panel color
-Couleur2 = "OrangeRed";
+Couleur2 = "Black";
 // - Text color
 TextColor = "White";
 // - making decorations thicker if it is a vent to make sure they go through
@@ -211,65 +238,195 @@ PanelHeight = Height - Thick*2 - PanelGap;
 TopOfBoardWRTPanel = FootHeight + PCBThick - (PanelGap/2);
 LeftEdgeOfBoardWRTFPanel = LeftEdgeMargin - (PanelGap/2);
 LeftEdgeOfBoardWRTBPanel = RightEdgeMargin - (PanelGap/2);
+// Visible panel edges
+PanelBottomEdge = Thick - (PanelGap/2);
+PanelTopEdge = PanelHeight - Thick + (PanelGap/2);
+PanelLeftEdge = Thick - (PanelGap/2);
+PanelRightEdge = PanelWidth - Thick + (PanelGap/2);
 
 
 // Holes for front panel
 module FPanelHoles() {
-    // SquareHole(On/Off, Xpos,Ypos,Length,Width,Filet)
-    SquareHole(1, 20, 20, 15, 10, 1);
-    SquareHole(1, 40, 20, 15, 10, 1);
-    SquareHole(1, 60, 20, 15, 10, 1);
-    // CylinderHole(On/Off, Xpos, Ypos, Diameter)
-    CylinderHole(1, 27, 40, 8);
-    CylinderHole(1, 47, 40, 8);
-    CylinderHole(1, 67, 40, 8);
-    SquareHole(1, 20, 50, 80, 30, 3);
-    CylinderHole(1, 93, 30, 10);
-    SquareHole(1, 120, 20, 30, 60, 3);
+    CylinderHole(
+        1,
+        LeftEdgeOfBoardWRTFPanel + LED1CenterFromLeftEdge,
+        TopOfBoardWRTPanel + LEDHeight,
+        LEDDiameter);
+    CylinderHole(
+        1,
+        LeftEdgeOfBoardWRTFPanel + LED2CenterFromLeftEdge,
+        TopOfBoardWRTPanel + LEDHeight,
+        LEDDiameter);
+    CylinderHole(
+        1,
+        LeftEdgeOfBoardWRTFPanel + LED3CenterFromLeftEdge,
+        TopOfBoardWRTPanel + LEDHeight,
+        LEDDiameter);
+    CylinderHole(
+        1,
+        LeftEdgeOfBoardWRTFPanel + LED4CenterFromLeftEdge,
+        TopOfBoardWRTPanel + LEDHeight,
+        LEDDiameter);
+    CylinderHole(
+        1,
+        LeftEdgeOfBoardWRTFPanel + LED5CenterFromLeftEdge,
+        TopOfBoardWRTPanel + LEDHeight,
+        LEDDiameter);
+    CylinderHole(
+        1,
+        LeftEdgeOfBoardWRTFPanel + LED6CenterFromLeftEdge,
+        TopOfBoardWRTPanel + LEDHeight,
+        LEDDiameter);
+    CylinderHole(
+        1,
+        LeftEdgeOfBoardWRTFPanel + LED7CenterFromLeftEdge,
+        TopOfBoardWRTPanel + LEDHeight,
+        LEDDiameter);
+    CylinderHole(
+        1,
+        LeftEdgeOfBoardWRTFPanel + ButtonCenterFromLeftEdge,
+        TopOfBoardWRTPanel + ButtonHeight,
+        ButtonDiameter);
+    CylinderHole(
+        1,
+        LeftEdgeOfBoardWRTFPanel + Jack1CenterFromLeftEdge,
+        TopOfBoardWRTPanel + JackHeight,
+        JackDiameter);
+    CylinderHole(
+        1,
+        LeftEdgeOfBoardWRTFPanel + Jack2CenterFromLeftEdge,
+        TopOfBoardWRTPanel + JackHeight,
+        JackDiameter);
 }
 
 
 // Text for front panel
 module FPanelText() {
-    // LText(On/Off, Xpos, Ypos, "Font", Size, "Text", "HAlign", "VAlign")
-    LText(1, 20, 83, "Arial Black", 4, "Digital Screen", HAlign="left");
-    LText(1, 120, 83, "Arial Black", 4, "Level", HAlign="left");
-    LText(1, 20, 11, "Arial Black", 6, "  1     2      3", HAlign="left");
-    // CText(On/Off, Xpos, Ypos, "Font", Size, Diameter, Arc(Deg), Starting Angle(Deg),"Text")
-    CText(1, 93, 29, "Arial Black", 4, 10, 180, 0,
-          ["1", "." , "3", "." , "5", "." , "7", "." , "9", "." , "11"]);
+    Margin = 2;
+
+    LText(
+        1,
+        LeftEdgeOfBoardWRTFPanel + LED1CenterFromLeftEdge,
+        PanelBottomEdge + Margin,
+        Font,
+        FontSize,
+        "P");
+    LText(
+        1,
+        LeftEdgeOfBoardWRTFPanel + LED2CenterFromLeftEdge,
+        PanelBottomEdge + Margin,
+        Font,
+        FontSize,
+        "T");
+    LText(
+        1,
+        LeftEdgeOfBoardWRTFPanel + LED3CenterFromLeftEdge,
+        PanelBottomEdge + Margin,
+        Font,
+        FontSize,
+        "1");
+    LText(
+        1,
+        LeftEdgeOfBoardWRTFPanel + LED4CenterFromLeftEdge,
+        PanelBottomEdge + Margin,
+        Font,
+        FontSize,
+        "2");
+    LText(
+        1,
+        LeftEdgeOfBoardWRTFPanel + LED5CenterFromLeftEdge,
+        PanelBottomEdge + Margin,
+        Font,
+        FontSize,
+        "L");
+    LText(
+        1,
+        LeftEdgeOfBoardWRTFPanel + LED6CenterFromLeftEdge,
+        PanelBottomEdge + Margin,
+        Font,
+        FontSize,
+        "B");
+    LText(
+        1,
+        LeftEdgeOfBoardWRTFPanel + LED7CenterFromLeftEdge,
+        PanelBottomEdge + Margin,
+        Font,
+        FontSize,
+        "B1");
+    LText(
+        1,
+        LeftEdgeOfBoardWRTFPanel + ButtonCenterFromLeftEdge,
+        PanelBottomEdge + Margin,
+        Font,
+        FontSize,
+        "RST");
+    LText(
+        1,
+        LeftEdgeOfBoardWRTFPanel + Jack1CenterFromLeftEdge,
+        PanelBottomEdge + Margin,
+        Font,
+        FontSize,
+        "Mic");
+    LText(
+        1,
+        LeftEdgeOfBoardWRTFPanel + Jack2CenterFromLeftEdge,
+        PanelBottomEdge + Margin,
+        Font,
+        FontSize,
+        "Line");
+    LText(
+        1,
+        PanelLeftEdge + 5,
+        PanelTopEdge - Margin,
+        Font,
+        5,
+        "Blubaru",
+        HAlign="left",
+        VAlign="top"
+    );
 }
 
 
 // Holes for back panel
 module BPanelHoles() {
-    CylinderHole(1,
-                 LeftEdgeOfBoardWRTBPanel + 16.4,
-                 TopOfBoardWRTPanel + 7,
-                 5 + PartMargin*2);
-    SquareHole(1,
-               LeftEdgeOfBoardWRTBPanel + 37.3,
-               TopOfBoardWRTPanel,
-               39.2,
-               12.55,
-               1);
+    SquareHole(
+        1,
+        LeftEdgeOfBoardWRTBPanel + DB151FromLeftEdge,
+        TopOfBoardWRTPanel,
+        DB15Width,
+        DB15Height,
+        1);
+    SquareHole(
+        1,
+        LeftEdgeOfBoardWRTBPanel + DB152FromLeftEdge,
+        TopOfBoardWRTPanel,
+        DB15Width,
+        DB15Height,
+        1);
 }
 
 
 // Text for back panel
 module BPanelText() {
-    LText(1,
-          LeftEdgeOfBoardWRTBPanel + 16.4,
-          TopOfBoardWRTPanel + 7 + 5,
-          "Arial Black",
-          4, "PWR"
+    Margin = 1;
+
+    LText(
+        1,
+        LeftEdgeOfBoardWRTBPanel + DB151FromLeftEdge + DB15Width/2,
+        PanelTopEdge - Margin,
+        Font,
+        FontSize,
+        "Stereo",
+        VAlign="top"
     );
-    LText(1,
-          LeftEdgeOfBoardWRTBPanel + 37.3 + 39.2/2,
-          TopOfBoardWRTPanel + 12.55 + 2,
-          "Arial Black",
-          4,
-          "DATA"
+    LText(
+        1,
+        LeftEdgeOfBoardWRTBPanel + DB152FromLeftEdge + DB15Width/2,
+        PanelTopEdge - Margin,
+        Font,
+        FontSize,
+        "CD",
+        VAlign="top"
     );
 }
 
@@ -487,7 +644,7 @@ module hole() {
     else {
         translate([0, Thick, Height/2 - 2*ScrewHole]) {
             rotate([90, 0, 0]) {
-                cylinder(Thick*3, d=BoxHole, $fn=100);
+                cylinder(Thick*3, d=ScrewHole, $fn=100);
             }
         }
     }
