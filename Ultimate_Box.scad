@@ -66,12 +66,13 @@ Vent = 1; // [0:No, 1:Yes]
 // - Decoration-Holes width (in mm)
 Vent_width = 1.5;
 // - Tolerance (Panel/rails gap)
-PanelGap = CutoutMargin*2 + PartMargin*2;
+PanelThickGap = CutoutMargin*2 + PartMargin*2;
+PanelEdgeGap = PartMargin*2;
 
 
 /* [Box Fixation Tabs] */
 // - Side screw hole (or snap) diameter
-ScrewHole = 2.2606;
+ScrewHoleTap = 2.2606;
 // - Screw thread major diameter for outer shell
 BoxHole = 2.8448;
 // Thickness of fixation tabs
@@ -85,7 +86,9 @@ FLTab = 1; // [0:Bottom, 1:Top]
 // Front right tab
 FRTab = 1; // [0:Bottom, 1:Top]
 // EXPERIMENTAL: Snap tabs
-SnapTabs = 0; // [0:Screws, 1:Snaps]
+SnapSize = 2;
+SnapTabs = 1; // [0:Screws, 1:Snaps]
+ScrewHole = SnapTabs ? SnapSize : ScrewHoleTap;
 
 // Private variables
 Font = "Arial Black";
@@ -129,9 +132,9 @@ FrontEdgeMargin = 0;
 // - Margin between back panel and PCB
 BackEdgeMargin = 0;
 // - Margin between left wall and PCB
-LeftEdgeMargin = TabThick + 3;
+LeftEdgeMargin = 5;
 // - Margin between right wall and PCB
-RightEdgeMargin = TabThick + 3;
+RightEdgeMargin = 5;
 // - Margin between top of PCB and box top.
 TopMargin = RegulatorHeight;
 
@@ -140,11 +143,12 @@ TopMargin = RegulatorHeight;
 // - Foot height above box interior
 FootHeight = 6.35 - PCBThick;
 // - Foot diameter
-FootDia = 5.6;
+FootDia = 5.2;
 // - Hole diameter, or peg for screwless design
-FootHole = 2.2606; // tap size for #4 coarse-thread
+// FootHole = 2.2606; // tap size for #4 coarse-thread
 // - EXPERIMENTAL Screwless design
-Screwless = 0; // [0:Screws, 1:Screwless]
+Screwless = 1; // [0:Screws, 1:Screwless]
+FootHole = Screwless ? 3.2: ScrewHoleTap;
 FootFilet = FootHeight/4;
 
 // Foot centers are specified as distance from PCB back-left corner.
@@ -198,7 +202,7 @@ Dec_Thick = Vent ? Thick*1.001 + Filet : Thick/2;
 // Separate vents with a square pillar by default.
 Dec_Spacing = Thick + Vent_width;
 // X offset to center of first vent
-Dec_Offset = Thick*2 + PanelThick + PanelGap + Dec_Spacing - Vent_width/2;
+Dec_Offset = Thick*2 + PanelThick + PanelThickGap + Dec_Spacing - Vent_width/2;
 
 // Resolution based on Round parameter. Set this first number to something
 // smaller to speed up processing. It should always be a multiple of 4.
@@ -211,16 +215,16 @@ Resolution = Round ? 100: 4;
    design, you will need to set the TopMargin to
    (Height - Thick*2 - FootHeight - PCBThick)
 */
-Length = PCBLength + FrontEdgeMargin + BackEdgeMargin + ((Thick + PanelThick + PanelGap)*2);
+Length = PCBLength + FrontEdgeMargin + BackEdgeMargin + ((Thick + PanelThick + PanelThickGap)*2);
 Width = PCBWidth + LeftEdgeMargin + RightEdgeMargin + Thick*2;
 Height = FootHeight + PCBThick + TopMargin + Thick*2;
 echo("Box: ", Length=Length, Width=Width, Height=Height);
 // X position inset of mounting holes and tabs
-MountInset = Thick*3 + PanelThick + PanelGap + ScrewHole*4;
+MountInset = Thick*3 + PanelThick + PanelThickGap + ScrewHole*4;
 
 // Calculate panel dimensions from box dimensions.
-PanelWidth = Width - Thick*2 - PanelGap;
-PanelHeight = Height - Thick*2 - PanelGap;
+PanelWidth = Width - Thick*2 - PanelEdgeGap;
+PanelHeight = Height - Thick*2 - PanelEdgeGap;
 
 
 /*  Panel Manager
@@ -235,14 +239,14 @@ PanelHeight = Height - Thick*2 - PanelGap;
 
 // Calculate board-relative positions with respect to the panel, for
 // convenience in placing panel elements.
-TopOfBoardWRTPanel = FootHeight + PCBThick - (PanelGap/2);
-LeftEdgeOfBoardWRTFPanel = LeftEdgeMargin - (PanelGap/2);
-LeftEdgeOfBoardWRTBPanel = RightEdgeMargin - (PanelGap/2);
+TopOfBoardWRTPanel = FootHeight + PCBThick - (PanelEdgeGap/2);
+LeftEdgeOfBoardWRTFPanel = LeftEdgeMargin - (PanelEdgeGap/2);
+LeftEdgeOfBoardWRTBPanel = RightEdgeMargin - (PanelEdgeGap/2);
 // Visible panel edges
-PanelBottomEdge = Thick - (PanelGap/2);
-PanelTopEdge = PanelHeight - Thick + (PanelGap/2);
-PanelLeftEdge = Thick - (PanelGap/2);
-PanelRightEdge = PanelWidth - Thick + (PanelGap/2);
+PanelBottomEdge = Thick - (PanelEdgeGap/2);
+PanelTopEdge = PanelHeight - Thick + (PanelEdgeGap/2);
+PanelLeftEdge = Thick - (PanelEdgeGap/2);
+PanelRightEdge = PanelWidth - Thick + (PanelEdgeGap/2);
 
 
 // Holes for front panel
@@ -476,8 +480,8 @@ module MainBox() {
             }
             // Makes interior backing for panel as a wall
             difference() {
-                RoundBox(xshrink=(Thick + PanelThick + PanelGap), yzshrink=Thick/2);
-                RoundBox(xshrink=(Thick*2 + PanelThick + PanelGap));
+                RoundBox(xshrink=(Thick + PanelThick + PanelThickGap), yzshrink=Thick/2);
+                RoundBox(xshrink=(Thick*2 + PanelThick + PanelThickGap));
             }
         }
         // Remove the top half
@@ -579,8 +583,8 @@ module tab() {
             if (SnapTabs) {
                 translate([0, ScrewHole*2, PartMargin]) {
                     difference() {
-                        sphere(d=ScrewHole, $fn=100);
-                        translate([0, 0, ScrewHole*.75]) {
+                        sphere(d=(ScrewHole - PartMargin*2), $fn=100);
+                        translate([0, 0, ScrewHole*.5 + TabThick/2]) {
                             cube(ScrewHole, center=true);
                         }
                     }
@@ -763,7 +767,7 @@ module foot() {
     No arguments are used, but parameters provide the PCB and foot dimensions.
 */
 module Feet(top=0) {
-    translate([BackEdgeMargin + Thick + PanelThick + PanelGap, LeftEdgeMargin + Thick, Thick]) {
+    translate([BackEdgeMargin + Thick + PanelThick + PanelThickGap, LeftEdgeMargin + Thick, Thick]) {
         if (!top) {
             %PCB();
         }
@@ -834,7 +838,7 @@ module BottomShell() {
     arguments but uses the global parameters.
 */
 module Panel() {
-    Filet = (Filet > Thick*2) ? Filet - Thick - PanelGap/2 : Filet - PanelGap/2;
+    Filet = (Filet > Thick*2) ? Filet - Thick - PanelEdgeGap/2 : Filet - PanelEdgeGap/2;
     echo("Panel:", Thick=PanelThick, PanelWidth=PanelWidth, PanelHeight=PanelHeight, Filet=Filet);
     translate([Filet, Filet, 0]) {
         offset(r=Filet, $fn=Resolution) {
@@ -959,9 +963,9 @@ module CText(OnOff, Tx, Ty, Font, Size, TxtRadius, Angl, Turn, Content) {
     text for your box.
 */
 module FPanL() {
-    translate([Length - (Thick + PanelGap/2 + PanelThick),
-               Thick + PanelGap/2,
-               Thick + PanelGap/2]) {
+    translate([Length - (Thick + PanelThickGap/2 + PanelThick),
+               Thick + PanelEdgeGap/2,
+               Thick + PanelEdgeGap/2]) {
         rotate([90, 0, 90]) {
             color(Couleur2) {
                 linear_extrude(height=PanelThick) {
@@ -990,9 +994,9 @@ module FPanL() {
     text for your box.
 */
 module BPanL() {
-    translate([Thick + PanelGap/2 + PanelThick,
-               Thick + PanelGap/2 + PanelWidth,
-               Thick + PanelGap/2]) {
+    translate([Thick + PanelThickGap/2 + PanelThick,
+               Thick + PanelEdgeGap/2 + PanelWidth,
+               Thick + PanelEdgeGap/2]) {
         rotate([90, 0, 270]) {
             color(Couleur2) {
                 linear_extrude(height=PanelThick) {
