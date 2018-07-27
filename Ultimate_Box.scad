@@ -55,8 +55,10 @@ Filet = 2;
 Round = 1; // [0:No, 1:Yes]
 // - Printer margin around interior cutouts
 CutoutMargin = 0.3;
+PanelCutoutMargin = CutoutMargin; // Use -0.1 for laser cutting
 // - Margin between mating parts
 PartMargin = 0.1;
+PanelPartMargin = PartMargin; // Use -0.1 for laser cutting
 // - PCB feet? (x4)
 PCBFeet = 1; // [0:No, 1:Yes]
 // - Decorations?
@@ -67,8 +69,8 @@ Vent = 1; // [0:No, 1:Yes]
 Vent_width = 1.5;
 // - Tolerance (Panel/rails gap on one edge)
 PanelThickGap = CutoutMargin + PartMargin;
-PanelVerticalGap = PartMargin;
-PanelHorizontalGap = CutoutMargin + PartMargin;
+PanelVerticalGap = PanelPartMargin;
+PanelHorizontalGap = CutoutMargin + PanelPartMargin;
 
 
 /* [Box Fixation Tabs] */
@@ -873,9 +875,9 @@ module Panel() {
 */
 module CylinderHole(OnOff, Cx, Cy, Cdia) {
     if (OnOff) {
-        echo("CylinderHole:", Cx=Cx, Cy=Cy, Cdia=Cdia + CutoutMargin*2);
+        echo("CylinderHole:", Cx=Cx, Cy=Cy, Cdia=Cdia + PanelCutoutMargin*2);
         translate([Cx, Cy, 0]) {
-            circle(d=Cdia + CutoutMargin*2, $fn=100);
+            circle(d=Cdia + PanelCutoutMargin*2, $fn=100);
         }
     }
 }
@@ -896,11 +898,11 @@ module CylinderHole(OnOff, Cx, Cy, Cdia) {
 */
 module SquareHole(OnOff, Sx, Sy, Sl, Sw, Filet) {
     if (OnOff) {
-        echo("SquareHole:", Sx=Sx - CutoutMargin, Sy=Sy - CutoutMargin,
-             Sl=Sl + CutoutMargin*2, Sw=Sw + CutoutMargin*2, Filet=Filet);
-        translate([Sx + Filet - CutoutMargin, Sy + Filet - CutoutMargin, 0]) {
+        echo("SquareHole:", Sx=Sx - PanelCutoutMargin, Sy=Sy - PanelCutoutMargin,
+             Sl=Sl + PanelCutoutMargin*2, Sw=Sw + PanelCutoutMargin*2, Filet=Filet);
+        translate([Sx + Filet - PanelCutoutMargin, Sy + Filet - PanelCutoutMargin, 0]) {
             offset(r=Filet, $fn=Resolution) {
-                square([Sl + CutoutMargin*2 - Filet*2, Sw + CutoutMargin*2 - Filet*2]);
+                square([Sl + PanelCutoutMargin*2 - Filet*2, Sw + PanelCutoutMargin*2 - Filet*2]);
             }
         }
     }
